@@ -1,0 +1,26 @@
+{
+  "types": [
+    { "value": "feat", "name": "feat:     新功能" },
+    { "value": "fix", "name": "fix:      修复" },
+    { "value": "docs", "name": "docs:     文档变更" },
+    { "value": "style", "name": "style:    空格, 分号等代码格式变动" },
+    { "value": "refactor", "name": "refactor: 代码重构(neither fix nor feat)" },
+    { "value": "perf", "name": "perf:     性能优化" },
+    { "value": "test", "name": "test:     添加测试" },
+    { "value": "chore", "name": "chore:    构建过程或辅助工具的变动" },
+    { "value": "revert", "name": "revert:   回退" },
+    { "value": "build", "name": "build:    影响构建系统或外部依赖项的更改" }
+  ],
+
+  "messages": {
+    "type": "请选择提交类型:",
+    "scope": "请选输入改的范围(可选):",
+    "subject": "请简要描述提交:",
+    "body": "请输入详细描述(可选)：\n",
+    "breaking": "非兼容性说明(可选):\n",
+    "footer": "请输入要关闭的issue(可选):",
+    "confirmCommit": "确定提交?(y/n)"
+  },
+
+  "subjectLimit": 100
+}
