@@ -12,6 +12,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "element-plus": "^2.5.3",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"
@@ -25,9 +27,12 @@
     "cz-customizable": "^7.0.0",
     "eslint": "^8.49.0",
     "eslint-plugin-vue": "^9.17.0",
+    "fast-glob": "^3.3.2",
+    "husky": "^8.0.0",
     "prettier": "^3.0.3",
+    "sass": "^1.70.0",
     "vite": "^5.0.10",
-    "husky": "^8.0.0"
+    "vite-plugin-svg-icons": "^2.0.1"
   },
   "config": {
     "commitizen": {
