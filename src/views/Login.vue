@@ -1,8 +1,10 @@
-<script setup name="LoginComponent">
+<script setup name="Login">
 import { ref, h, resolveComponent } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { ElMessage } from 'element-plus'
 
 const form = ref({
-  username: 'super-admin',
+  username: 'admin',
   password: '123456'
 })
 const rules = ref({
@@ -12,11 +14,31 @@ const rules = ref({
 const SvgIcon = resolveComponent('SvgIcon')
 const User = h(SvgIcon, { name: 'login-user' })
 const Password = h(SvgIcon, { name: 'login-password' })
+const loading = ref(false)
+const formEl = ref()
+const store = useUserStore()
+
+const handleLogin = () => {
+  formEl.value
+    .validate()
+    .then(() => {
+      loading.value = true
+      return store.loginAct(form.value)
+    })
+    .then(({ message }) => {
+      loading.value = false
+      ElMessage.success(message)
+    })
+    .catch((err) => {
+      console.log(err)
+      loading.value = false
+    })
+}
 </script>
 
 <template>
   <div class="container">
-    <el-form :model="form" :rules="rules" size="large" class="form">
+    <el-form :model="form" :rules="rules" size="large" class="form" ref="formEl">
       <div class="header">
         <h3>用户登录</h3>
       </div>
@@ -39,8 +61,11 @@ const Password = h(SvgIcon, { name: 'login-password' })
         />
       </el-form-item>
       <el-form-item class="btn">
-        <el-button type="primary">登录</el-button>
+        <el-button type="primary" :loading="loading" @click="handleLogin">登 录</el-button>
       </el-form-item>
+      <div class="sub-btn">
+        <el-link href="/register">注册</el-link>
+      </div>
     </el-form>
   </div>
 </template>
@@ -74,6 +99,9 @@ $cursor: #fff;
     }
     .btn .el-button {
       width: 100%;
+    }
+    .sub-btn {
+      text-align: center;
     }
   }
 }
