@@ -8,12 +8,12 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(
-  (config) => {
+  (request) => {
     const userStore = useUserStore()
     if (userStore.token) {
-      config.headers.Authorization = `Bearer ${userStore.token}`
+      request.headers.Authorization = `Bearer ${userStore.token}`
     }
-    return config // 必须返回配置
+    return request
   },
   (error) => {
     return Promise.reject(error)
@@ -23,12 +23,12 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     const { success, message } = response.data
-    //   要根据success的成功与否决定下面的操作
+
     if (success) {
       return response.data
     } else {
       // 业务错误
-      ElMessage.error(message) // 提示错误消息
+      ElMessage.error(message)
       return Promise.reject(new Error(message))
     }
   },

@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
 import md5 from 'md5'
-import { ref } from 'vue'
-import { login, register } from '@/api/user'
+import { computed, ref } from 'vue'
+import { login, register, getUserInfo } from '@/api/user'
 import { setItem, getItem } from '@/utils/storage'
 
 export const useUserStore = defineStore('user', () => {
   const token = ref(getItem('token') || '')
+  const userInfo = ref({})
+  const hasUserInfo = computed(() => JSON.stringify(userInfo.value) !== '{}')
   function loginAct({ username, password }) {
     return login({
       username,
@@ -22,6 +24,11 @@ export const useUserStore = defineStore('user', () => {
       password: md5(password)
     })
   }
+  function getUserInfoAct() {
+    return getUserInfo().then((res) => {
+      userInfo.value = res
+    })
+  }
 
-  return { token, loginAct, registerAct }
+  return { token, loginAct, registerAct, userInfo, hasUserInfo, getUserInfoAct }
 })

@@ -8,7 +8,7 @@ export const login = (data) => {
     data
   })
 }
-// 登录
+// 注册
 export const register = (data) => {
   return request({
     url: '/user/register',

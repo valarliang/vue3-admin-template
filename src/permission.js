@@ -7,8 +7,11 @@ router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
   if (userStore.token) {
     if (to.path === '/login') {
-      next('/')
+      next('/') // 重定向首页
     } else {
+      if (!userStore.hasUserInfo) {
+        userStore.getUserInfo()
+      }
       next()
     }
   } else if (whiteList.includes(to.path)) {
