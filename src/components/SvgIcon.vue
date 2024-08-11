@@ -5,10 +5,6 @@ const props = defineProps({
   name: {
     type: String,
     required: true
-  },
-  className: {
-    type: String,
-    default: ''
   }
 })
 
@@ -23,13 +19,8 @@ const iconName = computed(() => `#icon-${props.name}`)
 </script>
 
 <template>
-  <div
-    v-if="isExternal"
-    :style="styleExternalIcon"
-    class="svg-external-icon svg-icon"
-    :class="className"
-  />
-  <svg v-else class="svg-icon" :class="className" aria-hidden="true">
+  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" />
+  <svg v-else class="svg-icon" aria-hidden="true">
     <use :xlink:href="iconName" />
   </svg>
 </template>

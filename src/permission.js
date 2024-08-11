@@ -10,7 +10,7 @@ router.beforeEach(async (to, from, next) => {
       next('/') // 重定向首页
     } else {
       if (!userStore.hasUserInfo) {
-        userStore.getUserInfo()
+        userStore.getUserInfoAct()
       }
       next()
     }

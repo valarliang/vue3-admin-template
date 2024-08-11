@@ -2,6 +2,7 @@
 import { ref, h, resolveComponent } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
 const form = ref({
   username: 'admin',
@@ -17,6 +18,7 @@ const Password = h(SvgIcon, { name: 'login-password' })
 const loading = ref(false)
 const formEl = ref()
 const store = useUserStore()
+const router = useRouter()
 
 const handleLogin = () => {
   formEl.value
@@ -28,6 +30,7 @@ const handleLogin = () => {
     .then(({ message }) => {
       loading.value = false
       ElMessage.success(message)
+      router.push('/')
     })
     .catch((err) => {
       console.log(err)

@@ -7,9 +7,7 @@ import Main from './components/Main.vue'
 <template>
   <el-container class="layout-container">
     <el-aside>
-      <el-scrollbar>
-        <Sidbar />
-      </el-scrollbar>
+      <Sidbar />
     </el-aside>
 
     <el-container>
@@ -27,7 +25,7 @@ import Main from './components/Main.vue'
 </template>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables.scss';
+@import '@/assets/styles/variables.module.scss';
 .layout-container {
   height: 100vh;
   .el-aside {

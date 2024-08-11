@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+import { RouterView } from 'vue-router'
+</script>
 
 <template>
-  <div class="navbar">Main</div>
+  <RouterView />
 </template>
 
 <style lang="scss" scoped></style>
