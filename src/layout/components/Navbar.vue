@@ -1,14 +1,21 @@
 <script setup>
-import { useUserStore } from '@/stores/user'
+import { useUserStore, useThemeStore } from '@/stores'
 import { ArrowDown } from '@element-plus/icons-vue'
+import Breadcrumb from '@/components/Breadcrumb'
 
 const userStore = useUserStore()
 const logout = userStore.logout
+const themeStore = useThemeStore()
 </script>
 
 <template>
   <div class="navbar">
-    <div class="left"></div>
+    <div class="left">
+      <el-icon @click="themeStore.toggleSidebarCollapse"
+        ><component :is="themeStore.sidebarCollapse ? 'Expand' : 'Fold'"
+      /></el-icon>
+      <Breadcrumb />
+    </div>
     <div class="right">
       <el-dropdown>
         <span class="el-dropdown-link">
@@ -35,6 +42,14 @@ const logout = userStore.logout
     cursor: pointer;
     display: flex;
     align-items: center;
+  }
+  .left {
+    display: flex;
+    align-items: center;
+    .el-icon {
+      cursor: pointer;
+      margin-right: 10px;
+    }
   }
 }
 </style>

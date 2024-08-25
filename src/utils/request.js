@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores'
 import { ElMessage } from 'element-plus'
 // import { isCheckTimeout } from '@/utils/auth'
 const service = axios.create({

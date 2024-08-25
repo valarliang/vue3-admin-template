@@ -38,8 +38,8 @@ function onlyOneShowing() {
 }
 </script>
 
-<template>
-  <div v-if="!item.hidden">
+<template v-if="!item.hidden">
+  <template v-if="!item.hidden">
     <el-menu-item v-if="onlyOneShowing()" :index="resolvePath(onlyOne.path)">
       <Item
         v-if="onlyOne.meta"
@@ -59,7 +59,7 @@ function onlyOneShowing() {
         :base-path="resolvePath(item.path)"
       />
     </el-sub-menu>
-  </div>
+  </template>
 </template>
 
 <style lang="scss" scoped></style>

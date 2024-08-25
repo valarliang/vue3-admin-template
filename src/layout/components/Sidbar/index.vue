@@ -1,25 +1,25 @@
 <script setup>
 import { ref } from 'vue'
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores'
 import { privateRoutes, publicRoutes } from '@/router'
 import SidebarItem from './SidebarItem'
+import Logo from './Logo'
 import { useRoute } from 'vue-router'
 
 const themeStore = useThemeStore()
 const { menuBg, menuText, menuActiveText } = themeStore.cssVar
 const route = useRoute()
-const isCollapse = ref(false)
 const showLogo = ref(false)
 const permission_routes = publicRoutes.concat(privateRoutes)
 </script>
 
 <template>
   <div :class="{ 'has-logo': showLogo }">
-    <!-- <logo v-if="showLogo" :collapse="isCollapse" /> -->
+    <Logo :collapse="themeStore.sidebarCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="route.path"
-        :collapse="isCollapse"
+        :collapse="themeStore.sidebarCollapse"
         :background-color="menuBg"
         :text-color="menuText"
         :unique-opened="false"
@@ -37,4 +37,8 @@ const permission_routes = publicRoutes.concat(privateRoutes)
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.el-menu {
+  border: none;
+}
+</style>

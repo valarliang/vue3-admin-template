@@ -1,6 +1,6 @@
 <script setup name="Register">
 import { ref, h, resolveComponent } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores'
 import router from '@/router'
 import { ElMessage } from 'element-plus'
 

@@ -1,9 +1,3 @@
-<script setup>
-import Navbar from './components/Navbar.vue'
-import Sidbar from './components/Sidbar/index.vue'
-import Main from './components/Main.vue'
-</script>
-
 <template>
   <el-container class="layout-container">
     <el-aside>
@@ -24,12 +18,25 @@ import Main from './components/Main.vue'
   </el-container>
 </template>
 
+<script setup>
+import Navbar from './components/Navbar.vue'
+import Sidbar from './components/Sidbar/index.vue'
+import Main from './components/Main.vue'
+import { useThemeStore } from '@/stores'
+import { computed } from 'vue'
+
+const themeStore = useThemeStore()
+const { sideBarWidth, hideSideBarWidth } = themeStore.cssVar
+const width = computed(() => (themeStore.sidebarCollapse ? hideSideBarWidth : sideBarWidth))
+</script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/variables.module.scss';
 .layout-container {
   height: 100vh;
   .el-aside {
-    width: $sideBarWidth;
+    width: v-bind(width);
+    transition: var(--el-transition-duration) width ease-in-out;
     background: $menuBg;
   }
   .el-header {

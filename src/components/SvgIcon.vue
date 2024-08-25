@@ -20,9 +20,11 @@ const iconName = computed(() => `#icon-${props.name}`)
 
 <template>
   <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" />
-  <svg v-else class="svg-icon" aria-hidden="true">
-    <use :xlink:href="iconName" />
-  </svg>
+  <el-icon v-else>
+    <svg class="svg-icon" aria-hidden="true">
+      <use :xlink:href="iconName" />
+    </svg>
+  </el-icon>
 </template>
 
 <style lang="scss" scoped>
