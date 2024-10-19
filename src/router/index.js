@@ -31,7 +31,7 @@ export const privateRoutes = [
     redirect: '/user/manage',
     name: 'user',
     meta: {
-      title: '用户',
+      title: 'user',
       icon: 'el-user'
     },
     children: [
@@ -39,7 +39,7 @@ export const privateRoutes = [
         path: 'manage',
         component: () => import('@/views/user-manage/index'),
         meta: {
-          title: '用户管理',
+          title: 'userManage',
           icon: 'personnel-manage'
         }
       },
@@ -50,14 +50,14 @@ export const privateRoutes = [
         component: () => import('@/views/user-info/index'),
         props: true,
         meta: {
-          title: '用户详情'
+          title: 'userInfo'
         }
       },
       {
         path: 'role',
         component: () => import('@/views/role-list/index'),
         meta: {
-          title: '角色列表',
+          title: 'roleList',
           icon: 'role'
         }
       },
@@ -74,7 +74,7 @@ export const privateRoutes = [
         path: 'permission',
         component: () => import('@/views/permission-list/index'),
         meta: {
-          title: '权限列表',
+          title: 'permissionList',
           icon: 'permission'
         }
       }
@@ -85,13 +85,13 @@ export const privateRoutes = [
     component: layout,
     redirect: '/article/ranking',
     name: 'article',
-    meta: { title: '文章', icon: 'article' },
+    meta: { title: 'article', icon: 'article' },
     children: [
       {
         path: 'ranking',
         component: () => import('@/views/article-ranking/index'),
         meta: {
-          title: '文章排名',
+          title: 'articleRanking',
           icon: 'article-ranking'
         }
       },
@@ -99,7 +99,7 @@ export const privateRoutes = [
         path: 'create',
         component: () => import('@/views/article-create/index'),
         meta: {
-          title: '创建文章',
+          title: 'articleCreate',
           icon: 'el-document-add'
         }
       },
@@ -108,7 +108,7 @@ export const privateRoutes = [
         hidden: true,
         component: () => import('@/views/article-create/index'),
         meta: {
-          title: '文章编辑'
+          title: 'articleEditor'
         }
       },
       {
@@ -116,7 +116,7 @@ export const privateRoutes = [
         hidden: true,
         component: () => import('@/views/article-detail/index'),
         meta: {
-          title: '文章详情'
+          title: 'articleDetail'
         }
       }
     ]
@@ -146,7 +146,7 @@ export const publicRoutes = [
         name: 'profile',
         component: () => import('@/views/profile/index'),
         meta: {
-          title: '个人中心',
+          title: 'profile',
           icon: 'personnel'
         }
       }

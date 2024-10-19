@@ -2,6 +2,7 @@
 import { useUserStore, useThemeStore } from '@/stores'
 import { ArrowDown } from '@element-plus/icons-vue'
 import Breadcrumb from '@/components/Breadcrumb'
+import Language from '@/components/Language'
 
 const userStore = useUserStore()
 const logout = userStore.logout
@@ -17,6 +18,7 @@ const themeStore = useThemeStore()
       <Breadcrumb />
     </div>
     <div class="right">
+      <Language class="language" />
       <el-dropdown>
         <span class="el-dropdown-link">
           {{ userStore.userInfo.username }}
@@ -24,7 +26,7 @@ const themeStore = useThemeStore()
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item @click="logout">{{ $t('navBar.logout') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -38,17 +40,25 @@ const themeStore = useThemeStore()
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  .el-dropdown-link {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
   .left {
     display: flex;
     align-items: center;
     .el-icon {
       cursor: pointer;
       margin-right: 10px;
+    }
+  }
+  .right {
+    .language {
+      margin-right: 20px;
+    }
+    .el-dropdown-link {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .el-tooltip__trigger {
+      outline: none;
     }
   }
 }

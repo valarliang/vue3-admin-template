@@ -2,7 +2,7 @@
   <el-breadcrumb>
     <TransitionGroup name="breadcrumb">
       <el-breadcrumb-item v-for="item in matched" :key="item.path" :to="{ path: item.path }">
-        {{ item.title }}
+        {{ $t('route.' + item.title) }}
       </el-breadcrumb-item>
     </TransitionGroup>
   </el-breadcrumb>

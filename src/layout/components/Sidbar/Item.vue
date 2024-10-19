@@ -18,7 +18,7 @@ function snakeToCamel(str) {
 <template>
   <el-icon v-if="icon.startsWith('el-')" :size="20"><component :is="snakeToCamel(icon)" /></el-icon>
   <SvgIcon v-else :name="icon" class="svg" />
-  <span>{{ title }}</span>
+  <span>{{ $t('route.' + title) }}</span>
 </template>
 
 <style lang="scss" scoped>

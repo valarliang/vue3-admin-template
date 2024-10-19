@@ -3,14 +3,17 @@ import { ref, h, resolveComponent } from 'vue'
 import { useUserStore } from '@/stores'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import Language from '@/components/Language.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const form = ref({
   username: 'admin',
   password: '123456'
 })
 const rules = ref({
-  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [{ min: 6, message: '密码不能少于6位', trigger: 'blur' }]
+  username: [{ required: true, message: t('login.usernameRule'), trigger: 'blur' }],
+  password: [{ required: true, min: 6, message: t('login.passwordRule'), trigger: 'blur' }]
 })
 const SvgIcon = resolveComponent('SvgIcon')
 const User = h(SvgIcon, { name: 'login-user' })
@@ -32,8 +35,7 @@ const handleLogin = () => {
       ElMessage.success(message)
       router.push('/')
     })
-    .catch((err) => {
-      console.log(err)
+    .catch(() => {
       loading.value = false
     })
 }
@@ -43,7 +45,10 @@ const handleLogin = () => {
   <div class="container">
     <el-form :model="form" :rules="rules" size="large" class="form" ref="formEl">
       <div class="header">
-        <h3>用户登录</h3>
+        <h3 class="title">{{ $t('login.title') }}</h3>
+        <div class="language">
+          <Language fontSize="24px" />
+        </div>
       </div>
       <el-form-item prop="username">
         <el-input
@@ -64,11 +69,14 @@ const handleLogin = () => {
         />
       </el-form-item>
       <el-form-item class="btn">
-        <el-button type="primary" :loading="loading" @click="handleLogin">登 录</el-button>
+        <el-button type="primary" :loading="loading" @click="handleLogin">{{
+          $t('login.loginBtn')
+        }}</el-button>
       </el-form-item>
       <div class="sub-btn">
-        <el-link href="/register">注册</el-link>
+        <el-link href="/register">{{ $t('login.registerBtn') }}</el-link>
       </div>
+      <div class="desc" v-html="$t('login.desc')"></div>
     </el-form>
   </div>
 </template>
@@ -88,10 +96,21 @@ $cursor: #fff;
     margin-top: 160px;
     width: 420px;
     .header {
+      position: relative;
       text-align: center;
-      font-size: 26px;
       margin-bottom: 40px;
-      color: $light_gray;
+      .title {
+        font-size: 26px;
+        color: $light_gray;
+      }
+      .language {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 3px;
+        border-radius: 3px;
+        background: white;
+      }
     }
     .el-input__wrapper {
       background: rgba(0, 0, 0, 0.1);
@@ -105,6 +124,9 @@ $cursor: #fff;
     }
     .sub-btn {
       text-align: center;
+    }
+    .desc {
+      color: white;
     }
   }
 }
