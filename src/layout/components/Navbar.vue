@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { useUserStore, useThemeStore } from '@/stores'
 import { ArrowDown } from '@element-plus/icons-vue'
-import Breadcrumb from '@/components/Breadcrumb'
-import Language from '@/components/Language'
+import Breadcrumb from '@/components/Breadcrumb.vue'
+import Language from '@/components/Language.vue'
 
 const userStore = useUserStore()
 const logout = userStore.logout

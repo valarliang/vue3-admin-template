@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { useUserStore } from '@/stores'
 
 const userStore = useUserStore()
-const porps = defineProps({
+const props = defineProps({
   collapse: {
     type: Boolean,
     default: false
@@ -13,7 +13,7 @@ const porps = defineProps({
 <template>
   <div class="logo">
     <el-avatar :src="userStore.userInfo.avatar" fit="contain" />
-    <span :style="{ opacity: porps.collapse ? 0 : 1 }" class="name">
+    <span :style="{ opacity: props.collapse ? 0 : 1 }" class="name">
       {{ userStore.userInfo.username }}
     </span>
   </div>

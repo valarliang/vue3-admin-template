@@ -8,7 +8,7 @@
   </el-breadcrumb>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { watchEffect, ref } from 'vue'
 import { useRoute } from 'vue-router'
 

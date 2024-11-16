@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { RouterView } from 'vue-router'
 import zh from 'element-plus/dist/locale/zh-cn.mjs'
@@ -15,4 +15,4 @@ const locale = computed(() => (appStore.language === 'zh' ? zh : en))
   </el-config-provider>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

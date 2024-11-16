@@ -18,7 +18,7 @@
   </el-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Navbar from './components/Navbar.vue'
 import Sidbar from './components/Sidbar/index.vue'
 import Main from './components/Main.vue'

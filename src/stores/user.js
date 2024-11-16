@@ -7,8 +7,11 @@ import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('user', () => {
   const token = ref(getItem('token') || '')
-  const userInfo = ref({})
-  const hasUserInfo = computed(() => JSON.stringify(userInfo.value) !== '{}')
+  const userInfo = ref({
+    username: '',
+    avatar: ''
+  })
+  const hasUserInfo = computed(() => userInfo.value.username)
   const router = useRouter()
 
   function setToken(value) {

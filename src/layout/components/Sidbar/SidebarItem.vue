@@ -1,6 +1,6 @@
-<script setup name="SidebarItem">
+<script setup lang="ts">
 import { isExternal } from '@/utils'
-import Item from './Item'
+import Item from './Item.vue'
 import { ref } from 'vue'
 
 const props = defineProps({

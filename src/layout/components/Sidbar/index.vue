@@ -1,16 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useThemeStore } from '@/stores'
 import { privateRoutes, publicRoutes } from '@/router'
-import SidebarItem from './SidebarItem'
-import Logo from './Logo'
+import SidebarItem from './SidebarItem.vue'
+import Logo from './Logo.vue'
 import { useRoute } from 'vue-router'
 
 const themeStore = useThemeStore()
 const { menuBg, menuText, menuActiveText } = themeStore.cssVar
 const route = useRoute()
 const showLogo = ref(false)
-const permission_routes = publicRoutes.concat(privateRoutes)
+const permission_routes = [...publicRoutes, ...privateRoutes]
 </script>
 
 <template>
