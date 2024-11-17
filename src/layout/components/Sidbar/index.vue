@@ -7,7 +7,6 @@ import Logo from './Logo.vue'
 import { useRoute } from 'vue-router'
 
 const themeStore = useThemeStore()
-const { menuBg, menuText, menuActiveText } = themeStore.cssVar
 const route = useRoute()
 const showLogo = ref(false)
 const permission_routes = [...publicRoutes, ...privateRoutes]
@@ -20,10 +19,10 @@ const permission_routes = [...publicRoutes, ...privateRoutes]
       <el-menu
         :default-active="route.path"
         :collapse="themeStore.sidebarCollapse"
-        :background-color="menuBg"
-        :text-color="menuText"
+        :background-color="themeStore.cssVar.menuBg"
+        :text-color="themeStore.cssVar.menuText"
         :unique-opened="false"
-        :active-text-color="menuActiveText"
+        :active-text-color="themeStore.theme"
         router
       >
         <SidebarItem
@@ -40,5 +39,23 @@ const permission_routes = [...publicRoutes, ...privateRoutes]
 <style lang="scss" scoped>
 .el-menu {
   border: none;
+  height: 100%;
+  width: 100%;
+}
+
+:deep(.el-menu-item) {
+  &:hover {
+    background-color: v-bind('themeStore.theme + "1A"') !important;
+  }
+
+  &.is-active {
+    background-color: v-bind('themeStore.theme + "1A"') !important;
+  }
+}
+
+:deep(.el-sub-menu__title) {
+  &:hover {
+    background-color: v-bind('themeStore.theme + "1A"') !important;
+  }
 }
 </style>

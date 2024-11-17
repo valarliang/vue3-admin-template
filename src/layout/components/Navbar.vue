@@ -3,6 +3,7 @@ import { useUserStore, useThemeStore } from '@/stores'
 import { ArrowDown } from '@element-plus/icons-vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Language from '@/components/Language.vue'
+import ThemeSelect from '@/components/ThemeSelect.vue'
 
 const userStore = useUserStore()
 const logout = userStore.logout
@@ -18,7 +19,8 @@ const themeStore = useThemeStore()
       <Breadcrumb />
     </div>
     <div class="right">
-      <Language class="language" />
+      <Language />
+      <ThemeSelect />
       <el-dropdown>
         <span class="el-dropdown-link">
           {{ userStore.userInfo.username }}
@@ -49,16 +51,13 @@ const themeStore = useThemeStore()
     }
   }
   .right {
-    .language {
-      margin-right: 20px;
-    }
+    display: flex;
+    align-items: center;
+    height: 100%;
     .el-dropdown-link {
       cursor: pointer;
       display: flex;
       align-items: center;
-    }
-    .el-tooltip__trigger {
-      outline: none;
     }
   }
 }
