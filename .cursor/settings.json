@@ -1,0 +1,11 @@
+{
+  "docs": [
+    // 项目使用的主要框架文档
+    "https://vuejs.org/docs",
+    "https://element-plus.org/zh-CN",
+
+    // 项目依赖的主要库文档
+    "https://pinia.vuejs.org/zh",
+    "https://cn.vitejs.dev/"
+  ]
+}

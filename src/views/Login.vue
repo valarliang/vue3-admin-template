@@ -76,7 +76,6 @@ const handleLogin = () => {
       <div class="sub-btn">
         <el-link href="/register">{{ $t('login.registerBtn') }}</el-link>
       </div>
-      <div class="desc" v-html="$t('login.desc')"></div>
     </el-form>
   </div>
 </template>
@@ -124,9 +123,6 @@ $cursor: #fff;
     }
     .sub-btn {
       text-align: center;
-    }
-    .desc {
-      color: white;
     }
   }
 }
