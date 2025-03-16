@@ -4,7 +4,7 @@ import { ArrowDown } from '@element-plus/icons-vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Language from '@/components/Language.vue'
 import ThemeSelect from '@/components/ThemeSelect.vue'
-
+import HeaderSearch from '@/components/HeaderSearch.vue'
 const userStore = useUserStore()
 const logout = userStore.logout
 const themeStore = useThemeStore()
@@ -19,6 +19,7 @@ const themeStore = useThemeStore()
       <Breadcrumb />
     </div>
     <div class="right">
+      <HeaderSearch />
       <Language />
       <ThemeSelect />
       <el-dropdown>
@@ -55,6 +56,7 @@ const themeStore = useThemeStore()
     align-items: center;
     height: 100%;
     .el-dropdown-link {
+      outline: none;
       cursor: pointer;
       display: flex;
       align-items: center;
