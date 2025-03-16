@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { isExternal as external } from '@/utils'
 import { computed } from 'vue'
 const props = defineProps({

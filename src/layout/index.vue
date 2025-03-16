@@ -15,6 +15,8 @@
         </el-scrollbar>
       </el-main>
     </el-container>
+
+    <FloatingBall />
   </el-container>
 </template>
 
@@ -22,6 +24,7 @@
 import Navbar from './components/Navbar.vue'
 import Sidbar from './components/Sidbar/index.vue'
 import Main from './components/Main.vue'
+import FloatingBall from '@/components/FloatingBall.vue'
 import { useThemeStore } from '@/stores'
 import { computed } from 'vue'
 
