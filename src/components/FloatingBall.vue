@@ -9,7 +9,7 @@
     <div class="chat-window" :class="{ 'chat-window-show': showChat }">
       <!-- 聊天窗口头部 -->
       <div class="chat-header">
-        <span>在线客服</span>
+        <span>deepseek</span>
         <el-icon class="close-icon" @click="showChat = false"><Close /></el-icon>
       </div>
 
@@ -52,28 +52,78 @@ const showChat = ref(false)
 const userInput = ref('')
 const chatContentRef = ref()
 const messages = ref([])
+const loading = ref(false)
 
 const handleSubmit = async () => {
-  if (!userInput.value.trim()) return
+  if (!userInput.value.trim() || loading.value) return
+
+  const userMessage = userInput.value.trim()
+  userInput.value = ''
+  loading.value = true
 
   // 添加用户消息
   messages.value.push({
     type: 'user',
-    content: userInput.value.trim()
+    content: userMessage
   })
 
-  // 添加系统回复
-  const response = '**感谢您的输入！**\n您的输入已被记录。'
+  // 添加一个空的系统回复消息
+  const systemMessageIndex = messages.value.length
   messages.value.push({
     type: 'system',
-    content: marked(response)
+    content: ''
   })
 
-  userInput.value = ''
+  try {
+    const response = await fetch('/api/deepseek/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: userMessage })
+    })
 
-  // 等待DOM更新后滚动到底部
-  await nextTick()
-  scrollToBottom()
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    let accumulatedContent = ''
+    let isDone = false
+
+    while (!isDone) {
+      const { done, value } = await reader.read()
+      isDone = done
+      if (done) break
+      console.log(value)
+      const chunk = decoder.decode(value)
+      const lines = chunk.split('\n')
+
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6)
+          if (data === '[DONE]') {
+            break
+          }
+          try {
+            const parsed = JSON.parse(data)
+            if (parsed.content) {
+              accumulatedContent += parsed.content
+              messages.value[systemMessageIndex].content = marked(accumulatedContent)
+              await nextTick()
+              scrollToBottom()
+            }
+          } catch (e) {
+            console.error('解析响应数据失败:', e)
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('API Error:', error)
+    messages.value[systemMessageIndex].content = marked(
+      `**错误：${error.message || '服务出现错误，请稍后重试'}**`
+    )
+  } finally {
+    loading.value = false
+  }
 }
 
 const handleKeydown = (e) => {
@@ -219,7 +269,7 @@ const formatUserMessage = (content) => {
         padding: 10px 15px;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         word-break: break-word;
-        white-space: pre-wrap;
+        white-space: normal;
       }
     }
   }
@@ -255,7 +305,7 @@ const formatUserMessage = (content) => {
     sans-serif;
 
   p {
-    margin: 8px 0;
+    margin: 4px 0;
   }
 
   strong {
