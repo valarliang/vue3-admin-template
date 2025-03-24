@@ -47,6 +47,60 @@
 import { ref, watch, nextTick } from 'vue'
 import { marked } from 'marked'
 import { ChatLineRound, Close } from '@element-plus/icons-vue'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/atom-one-dark.css'
+
+// 安全的HTML转义函数
+const escapeHtml = (text) => {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
+// 配置 marked 选项
+const renderer = new marked.Renderer()
+
+// 自定义代码块渲染
+renderer.code = function ({ text, lang }) {
+  try {
+    const validLanguage = lang && hljs.getLanguage(lang) ? lang : 'plaintext'
+    const escapedCode = escapeHtml(text)
+    let highlightedCode
+
+    try {
+      highlightedCode = hljs.highlight(text, { language: validLanguage }).value
+    } catch (e) {
+      console.warn('代码高亮失败，使用普通文本显示', e)
+      highlightedCode = escapedCode
+    }
+
+    return `
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-language">${validLanguage}</span>
+          <button class="copy-button" onclick="(() => { try { navigator.clipboard.writeText(\`${escapedCode.replace(/`/g, '\\`')}\`); } catch(e) {} })()">
+            复制
+          </button>
+        </div>
+        <pre><code class="hljs language-${validLanguage}">${highlightedCode}</code></pre>
+      </div>
+    `
+  } catch (error) {
+    console.error('代码块渲染失败', error)
+    return `<pre><code>${escapeHtml(text)}</code></pre>`
+  }
+}
+
+// 配置 marked
+marked.setOptions({
+  renderer,
+  gfm: true,
+  breaks: true,
+  pedantic: false
+})
 
 const showChat = ref(false)
 const userInput = ref('')
@@ -92,7 +146,6 @@ const handleSubmit = async () => {
       const { done, value } = await reader.read()
       isDone = done
       if (done) break
-      console.log(value)
       const chunk = decoder.decode(value)
       const lines = chunk.split('\n')
 
@@ -106,9 +159,14 @@ const handleSubmit = async () => {
             const parsed = JSON.parse(data)
             if (parsed.content) {
               accumulatedContent += parsed.content
-              messages.value[systemMessageIndex].content = marked(accumulatedContent)
-              await nextTick()
-              scrollToBottom()
+              try {
+                messages.value[systemMessageIndex].content = marked(accumulatedContent)
+                await nextTick()
+                scrollToBottom()
+              } catch (e) {
+                console.error('Markdown 渲染失败:', e)
+                messages.value[systemMessageIndex].content = escapeHtml(accumulatedContent)
+              }
             }
           } catch (e) {
             console.error('解析响应数据失败:', e)
@@ -196,7 +254,7 @@ const formatUserMessage = (content) => {
   position: fixed;
   right: 40px;
   bottom: 120px;
-  width: 350px;
+  width: 400px;
   height: 500px;
   background: #fff;
   border-radius: 12px;
@@ -265,7 +323,7 @@ const formatUserMessage = (content) => {
       }
 
       .message-bubble {
-        max-width: 80%;
+        max-width: 90%;
         padding: 10px 15px;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         word-break: break-word;
@@ -310,6 +368,103 @@ const formatUserMessage = (content) => {
 
   strong {
     font-weight: 600;
+  }
+
+  .code-block {
+    margin: 8px 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #282c34;
+
+    .code-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      background: #21252b;
+      border-bottom: 1px solid #181a1f;
+
+      .code-language {
+        color: #abb2bf;
+        font-size: 12px;
+        text-transform: lowercase;
+      }
+
+      .copy-button {
+        background: transparent;
+        border: 1px solid #181a1f;
+        border-radius: 4px;
+        color: #abb2bf;
+        padding: 4px 8px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          background: #2c313a;
+          border-color: #2c313a;
+        }
+      }
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      background: transparent;
+
+      code {
+        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        font-size: 14px;
+        color: #abb2bf;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+  }
+
+  .hljs {
+    color: #abb2bf;
+    background: transparent;
+
+    .hljs-keyword,
+    .hljs-operator {
+      color: #c678dd;
+    }
+
+    .hljs-function {
+      color: #61afef;
+    }
+
+    .hljs-string {
+      color: #98c379;
+    }
+
+    .hljs-number {
+      color: #d19a66;
+    }
+
+    .hljs-comment {
+      color: #5c6370;
+      font-style: italic;
+    }
+
+    .hljs-attr {
+      color: #d19a66;
+    }
+
+    .hljs-built_in {
+      color: #e6c07b;
+    }
+  }
+
+  code {
+    background-color: rgba(27, 31, 35, 0.05);
+    border-radius: 3px;
+    font-size: 85%;
+    margin: 0;
+    padding: 0.2em 0.4em;
   }
 }
 </style>
